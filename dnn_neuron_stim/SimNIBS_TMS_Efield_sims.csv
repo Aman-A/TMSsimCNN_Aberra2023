@@ -1,0 +1,2 @@
+ID,Efield_name,mesh_name,mesh_file,sol_file,sim_struct_name
+1,M1_PA_MagVenture_MC_B70_ernie,ernie_m2m,ernie,ernie_TMS_1-0001_MagVenture_MC_B70_nii_vn,simnibs_sim_M1_PA_MagVenture_MC_B70_ernie
