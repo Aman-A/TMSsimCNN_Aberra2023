@@ -1,6 +1,7 @@
-function output = getDNNOutputLayer(Efield,weights_file,varargin)
-%GETDNNOUTPUTLAYER Pass E-fields from single layer to python
-%keras/tensorflow model and predict neural response output
+function output = getDNNOutput(Efield,weights_file,varargin)
+%GETDNNOUTPUT Pass cell array or 5D matrix of E-fields 
+% (Npositions x Nx x Ny x Nz x 3) to python keras/tensorflow model and 
+% predict neural response output
 %
 %   Inputs
 %   ------

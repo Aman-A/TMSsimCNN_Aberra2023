@@ -9,6 +9,7 @@ OR install dependencies into existing environment and specify path in ...
 4) Download data:
     -neuron population data for nrn_model_ver = 'maxH', nrn_pop1_maxH.mat - nrn_pop12_maxH.mat go in dnn_neuron_stim/output_data/layer_data/<mesh_name>/<mesh_roi_name>/<layer_set_name>/<nrn_model_ver>
     -Interpolated E-field vectors for test dataset (5 clones of L2/3 PCs, L4 LBCs, L5 PCs at 4,999-5,000 positions within respective layers) for nrn_pop1_maxH.mat - nrn_pop12_maxH.mat, go in dnn_neuron_stim/output_data/nrn_efields/layer_set_1/<Efield_name>/<nrn_pop_name>/
+    -ernie mesh and solution data for test dataset (TMS of M1 handknob with PA directed induced current)
 
 5) Optional: To interpolate E-field vectors at all sampling grids from test dataset, run interpEfieldSample_all.m. Note: Running interpolation for all 15 neuron models, 12 rotations, and ~5,000 positions serially on a single CPU would take several weeks, parallelization highly recommended. interpEfieldSample.m uses all available CPUs to parallelize within model across all positions. 
     

@@ -104,10 +104,10 @@ else
             Efieldij = processEfieldSamples(Ecellij,E_mode,sample_method_struct.Nx,Eopts);
             %% Get estimate from DNN
             if strcmp(output_var,'probability')
-                firing_probs_dnn = getDNNOutputLayer(Efieldij,weights_filej);
+                firing_probs_dnn = getDNNOutput(Efieldij,weights_filej);
                 dnn_dataj(:,i) = firing_probs_dnn;
             elseif strcmp(output_var,'threshold')
-                threshEs_dnn = getDNNOutputLayer(Efieldij,weights_filej);
+                threshEs_dnn = getDNNOutput(Efieldij,weights_filej);
                 threshEs_dnn = threshEs_dnn./scale_factorsj; % convert back to dI/dt threshold by dividing by |E|_center in V/m per A/�s
                 dnn_dataj(:,i) = threshEs_dnn;
                 if i == 1
