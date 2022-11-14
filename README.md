@@ -1,20 +1,17 @@
 # TMSsimCNN_Aberra2022
 Code associated with Aberra AS, Lopez A, Grill WM, Peterchev AV. (2022). "Rapid estimation of cortical neuron activation thresholds by transcranial magnetic stimulation using convolutional neural networks".  bioRxiv
 
-Startup:
 1) Run init.m to set up paths to dependencies
-2) Run cnn_neuron_stim/addPaths_dnn_neuron_stim
-3) Create python environment with necessary packages from requirements.txt
-OR install dependencies into existing environment and specify path in ...
-4) Download data:
-    -neuron population data for nrn_model_ver = 'maxH', nrn_pop1_maxH.mat - nrn_pop12_maxH.mat go in dnn_neuron_stim/output_data/layer_data/<mesh_name>/<mesh_roi_name>/<layer_set_name>/<nrn_model_ver>
-    -Interpolated E-field vectors for test dataset (5 clones of L2/3 PCs, L4 LBCs, L5 PCs at 4,999-5,000 positions within respective layers) for nrn_pop1_maxH.mat - nrn_pop12_maxH.mat, go in dnn_neuron_stim/output_data/nrn_efields/layer_set_1/<Efield_name>/<nrn_pop_name>/
-    -ernie mesh and solution data for test dataset (TMS of M1 handknob with PA directed induced current)
+2) Run addPaths_dnn_neuron_stim to add matlab code (dnn_neuron_stim/) to path 
+3) OPTIONAL: To interpolate E-field vectors at all sampling grids from test dataset, run interpEfieldSample_all.m. Note: Running interpolation for all 15 neuron models, 12 rotations, and ~5,000 positions serially on a single CPU would take several weeks, parallelization highly recommended. interpEfieldSample.m uses all available CPUs to parallelize within model across all positions. 
 
-5) Optional: To interpolate E-field vectors at all sampling grids from test dataset, run interpEfieldSample_all.m. Note: Running interpolation for all 15 neuron models, 12 rotations, and ~5,000 positions serially on a single CPU would take several weeks, parallelization highly recommended. interpEfieldSample.m uses all available CPUs to parallelize within model across all positions. 
-    
+To generate Fig. 3, Supp. Fig 1, and Supp. Fig 3, see plot_Fig3_panels.m, plot_SuppFig1.m, and plot_SuppFig3.m, respectively in plot_manuscript_figs/
+
+To run threshold estimation on single neuron model/position, see plot_manuscript_figs/run_estimation_single_neuron.m script
+
 Dependencies:
-Python: 
+
+Python (installed in new environment by init.m): 
     keras/tensorflow
     h5py
     scipy
@@ -22,14 +19,15 @@ Python:
     # maybe?    
     matplotlib (check if come with keras/tensorflow)
 
-MATLAB toolboxes:
+MATLAB toolboxes (user install):
     Parallel Computing Toolbox  
     version >r2022a, specifically for:
         exportgraphics.m 
         >2020b:
         max with 'omitnan' flag
-SimNIBS MATLAB library:
-    mesh_load_gmsh4
-    mesh_get_tetrahedron_centers
-    get_field_idx
-    mesh_save_gmsh4
+
+FEM E-field simulation was conducted in SimNIBS v3.1. The necessary MATLAB library functions to load/save/process this file is included in this repository. 
+
+NEURON model coordinates correspond to models adapted from Blue Brain Project as part of Aberra AS, Peterchev AV & Grill WM (2018). Biophysically Realistic Neuron Models for Simulation of Cortical Stimulation. Journal of Neural Engineering 15, 066023. Model code can be found at https://senselab.med.yale.edu/ModelDB/ShowModel?model=241165#tabs-1
+
+  
