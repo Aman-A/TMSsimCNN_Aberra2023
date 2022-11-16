@@ -1,28 +1,24 @@
 main_dir = addPaths_dnn_neuron_stim;
-download_test_dataset = 0; % set to 1 to download test dataset, consists of:
-                           % SimNIBS ernie example mesh meshed with
-                           % mri2mesh
-                           % ernie_m2m_handknob.mat ->
-                           % dnn_neuron_stim/output_data/layer_data/ernie_m2m/ernie_m2m_handknob
-                           % layer mesh data (layer_set_1)
-                           % 
+% OPTIONAL: Download test dataset to regenerate Fig3 or run estimation on
+% neurons positioned within test E-field distribution (using ernie SimNIBS
+% example head mesh, re-meshed with mri2mesh pipeline)
+% Test dataset can be downloaded from:
+% 
+
+downloaded_test_dataset = 1; % set to 1 to skip moving test dataset to 
+                           % appropriate folders
+
 % After installing python dependencies (tensorflow, keras, numpy, and scipy)
 % specify path to python executable by setting python_exec_str in 
 % dnn_neuron_stim/mat_util/python_exec.m
 path_to_python_executable = python_exec; 
 fprintf('Path to python executable successfully added to python_exec: %s\n',...
         path_to_python_executable)
-% OPTIONAL: Download test dataset to regenerate Fig3 or run estimation on
-% neurons positioned within test E-field distribution (using ernie SimNIBS
-% example head mesh, re-meshed with mri2mesh pipeline)
 
-if download_test_dataset
+
+if downloaded_test_dataset
     datafile = 'Aberra2022_TMSsimCNN_dataset';
-    target_dir = 'data'; % path to directory test dataset will be 
-                         % downloaded to, requires >X GB storage space
-    mat_dir = addPaths_dnn_neuron_stim;    
-    % Download
-
+    target_dir = 'data'; % path to directory test dataset is placed in        
     % Unzip
     unzip(fullfile(target_dir,[datafile '.zip']),target_dir);
     % test dataset parameters
@@ -52,4 +48,8 @@ if download_test_dataset
     % move simnibs data
     copyfile(fullfile(target_dir,datafile,'simnibs/'),...
              fullfile(mat_dir,'..','simnibs/'));
+    % move nrn field data
+    copyfile(fullfile(target_dir,datafile,'nrn_efields/'),...
+             fullfile(mat_dir,'output_data','nrn_efields/'));
+    fprintf('Done downloading and moving data\n')
 end
