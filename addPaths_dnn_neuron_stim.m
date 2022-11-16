@@ -1,8 +1,8 @@
-% Run this function first to extra functions to path
+% Run this function first to add functions to path
 function [main_dir,varargout] = addPaths_dnn_neuron_stim()
     main_dir =  [fileparts(which('addPaths_dnn_neuron_stim.m')) filesep 'dnn_neuron_stim'];
     pathCell = regexp(path, pathsep, 'split');
-    test_dir = fullfile(main_dir,'py_util'); % check if this subfolder is on path
+    test_dir = fullfile(main_dir,'mat_util'); % check if this subfolder is on path
     if ispc  % Windows is not case-sensitive
         onPath = any(strcmpi(test_dir, pathCell));
     else

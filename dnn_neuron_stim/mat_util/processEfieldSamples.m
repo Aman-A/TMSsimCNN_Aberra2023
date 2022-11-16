@@ -12,15 +12,17 @@ function [Efield_samples_out, varargout] = processEfieldSamples(Efield_samples_i
 %                  containing E-field samples centered at soma and rotated
 %                  into local coordinate space
 % process_mode : string, one of 'cart','sph','cart_tr','sph_tr'
-% process_mode == 'cart' --> Cartesian
-% process_mode == 'sph' --> Spherical.
-% process_mode == 'cart_tr' -->  Cartesian Transformed
-% process_mode == 'sph_tr'--> Spherical Transformed.
-% process_mode == '3D_cart'
-% process_mode == '3D_sph'
-% process_mode == '3D_sphPD' - 3D spherical with phi (azimuthal angle) differences
-% process_mode == '3D_sphNorm' - 3D Spherical w normalized polar and
-% azimuthal angles
+%               'cart' --> Cartesian
+%               'sph' --> Spherical.
+%               'cart_tr' -->  Cartesian Transformed
+%               'sph_tr'--> Spherical Transformed.
+%               '3D_cart'
+%               '3D_sph'
+%               '3D_sphPD' - 3D spherical with phi (azimuthal angle) differences
+%               '3D_sphNorm' - 3D Spherical w normalized polar and
+%                               azimuthal angles
+% N : Size of cubic grid
+%     Ex: N = 9 reshapes Efields at each position into 9 x 9 x 9 x 3 tensors
 %**Outputs:
 % Efield_samples_out : cell array of size (Number of positions,1)
 %                      Contains transformed Efield vectors
@@ -35,8 +37,7 @@ in.reorder_E = 0; % previously required reordering Efield samples to grid order,
 in.print_level = 1;
 in = sl.in.processVarargin(in,varargin);
 if in.print_level > 0
-    fprintf('Processing E-field samples with mode: %s\n',process_mode);
-    fprintf('WARNING: If using old Ecell data, check row order. New data (after 3/12/21) uses default column order\n'); 
+    fprintf('Processing E-field samples with mode: %s\n',process_mode);    
 end
 Efield_samples_out = cell(size(Efield_samples_in));
 switch process_mode

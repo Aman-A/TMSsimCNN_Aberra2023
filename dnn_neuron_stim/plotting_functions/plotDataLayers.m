@@ -27,31 +27,6 @@ if in.scale_data ~= 1
    data_layer = cellfun(@(x) x*in.scale_data,data_layer,'UniformOutput',0);
    fprintf('Scaled data_layer by %.1f\n',in.scale_data); 
 end
-%% Extract ROI surface if data was simulated for just this ROI
-if ~isempty(in.ROIi)
-    ROIi = in.ROIi;
-    extract_roi = 1;
-elseif ~isempty(in.sim_layerROI_name)
-    layerROIdata = loadLayerROI(layers(1).layer_set_num,in.sim_layerROI_name); 
-    ROIi = layerROIdata.ROIi; 
-    extract_roi = 1;
-else
-    extract_roi = 0;
-end
-% num_layers = length(cell_ids); 
-if extract_roi
-   layers2 = layers; 
-   ROIi = ROIi(plot_layers); 
-   for i = 1:length(plot_layers)
-       [lv,lf] = removeMeshFaces(layers(i).surface.vertices,layers(i).surface.faces,~ROIi{i});
-       layers2(i).surface.vertices = lv;
-       layers2(i).surface.faces = lf;
-       if length(data_layer{i}) ~= size(layers2(i).surface.faces,1)
-          data_layer{i} = data_layer{i}(ROIi{i});  
-       end
-   end
-   layers = layers2; 
-end
 %% Get data points on vertices using weighted average
 if in.plot_vertices    
     for i = 1:length(plot_layers)

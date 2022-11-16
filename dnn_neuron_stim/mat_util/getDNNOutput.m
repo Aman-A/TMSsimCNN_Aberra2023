@@ -26,13 +26,7 @@ if nargin == 0
    Efield = processEfieldSamples(Ecell,'3D_cart',sample_method_struct.Nx);
    weights_file = 'tms_thresh2_N9_3D_cart_cell_E_center_cell6_train_3dcnn_rs_adr_e2k_seed1';
 end
-in.conda_env = 'ml_env37';
-if ismac
-%     in.python_path = sprintf('/Users/$USER/opt/miniconda3/envs/%s/bin/python',in.conda_env);
-    in.python_path = sprintf('/Users/$USER/miniforge3/envs/%s/bin/python',in.conda_env);
-else
-    in.python_path = 'python'; % load module before calling
-end
+in.python_path = python_exec; 
 in.py_func = 'runNetPredict.py';
 in = sl.in.processVarargin(in,varargin);
 [dnn_dir,dnn_data_dir] = addPaths_dnn_neuron_stim;

@@ -7,3 +7,4 @@ dnn_neuron_stim/cell_data/maxH
 dnn_neuron_stim/cnn_data/est_data
 dnn_neuron_stim/input_data/fem_efield_data
 dnn_neuron_stim/output_data/layer_data
+dnn_neuron_stim/__pycache__

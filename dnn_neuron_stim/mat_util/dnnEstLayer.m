@@ -18,7 +18,7 @@ function [dnn_data,scale_factors] = dnnEstLayer(cell_ids,weights_files,nrn_pop_n
 [~,dnn_data_dir] = addPaths_dnn_neuron_stim;
 in.use_scalar_potentials = 0;
 in.amp_mode = 'E_center';
-in.stim_amp = 100; % default 100 A/�s
+in.stim_amp = 100; % default 100 A/us
 in.est_dir = fullfile(dnn_data_dir,'cnn_data','est_data');
 in.sim_data_dir = dnn_data_dir;
 in = sl.in.processVarargin(in,varargin); 
@@ -97,8 +97,6 @@ else
                     % Ecell always in cartesian coordinates                    
                     scale_factorsj = cellfun(@(x) norm(x(center_ind,:)),Ecellij,'UniformOutput',1); % mag of center E-field
                     Ecellij = cellfun(@(x,y) x/y,Ecellij,num2cell(scale_factorsj),'UniformOutput',0); 
-%                     scale_factorsj = cellfun(@(x) norm(x(1,:)),Ecellij,'UniformOutput',1);
-%                     Ecellij = cellfun(@(x) x/norm(x(1,:)),Ecellij,'UniformOutput',0); % normalize center |E| to 1 V/m
                 end
             end
             Efieldij = processEfieldSamples(Ecellij,E_mode,sample_method_struct.Nx,Eopts);

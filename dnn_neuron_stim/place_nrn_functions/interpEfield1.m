@@ -157,7 +157,7 @@ switch interp_method
 
         if use_scalar_potentials
             v_data_ind = strcmp(names,'v');
-           if any(v_data_ind) == 1
+           if any(v_data_ind)
               ve = Edata_str_arr(v_data_ind).data*1e3; % potentials in mV
               fprintf('V: %g points outside mesh, assigned with %s\n',sum(isnan(ve)),in.out_fill)
               v_or_E_out = ve;
@@ -170,76 +170,7 @@ switch interp_method
             fprintf('E: %g points outside mesh, assigned with %s\n',sum(isnan(Eint(:,1))),in.out_fill);
             v_or_E_out = {Eint,cell_normal,phi};
 %             fprintf('Outputting E (in V/m) on compartments\n');
-        end
-    case 'simnibs_mesh_interp2'
-        fprintf('Interpolating E-field using SimNIBS FEM interpolation method (simnibs_mesh_interp2), full mesh\n')
-        T = readtable(Efield_table);
-        Eind = strcmp(T.Efield_name,Efield_name);
-        if ~any(Eind)
-            err_str = ['%s is not a valid Efield_name in %s, must be:\n',repmat('%s \n',1,length(Eind))];
-            error(err_str,Efield_name,Efield_table,T.Efield_name{:});
-        end
-        mesh_name = T.mesh_name{Eind};
-        sol_file = T.sol_file{Eind};
-        sim_struct_name = T.sim_struct_name{Eind};
-        mesh_sol_file_path = fullfile(mat_dir,'..','simnibs',mesh_name,sim_struct_name,[sol_file '.msh']);
-        % Interpolate E-field at neuron model compartment coordinates
-        Cij = placeCell(cell_origin,cell_normal,C,phi); % get coordinates of all compartments for kth cell (in mm)
-        Edata = get_fields_at_coordinates(mesh_sol_file_path,Cij,in.out_fill);
-        Edata_str_arr = [Edata{:}];
-        names = {Edata_str_arr.name};
-        if use_scalar_potentials
-            v_data_ind = strcmp(names,'v');
-           if any(v_data_ind) == 1
-              v_or_E_out{1} = Edata_str_arr(v_data_ind).data*1e3; % potentials in mV
-%               fprintf('Outputting v (in mV) on compartments\n');
-           else
-               fprintf('v does not exist in this solution file\n');
-           end
-        else
-            Eint = Edata_str_arr(strcmp(names,'E')).data;
-            v_or_E_out = {Eint,cell_normal,phi};
-        end
-    case 'poly_fit'
-        fprintf('Using polynomial for local interpolation\n')
-        Edata_dir = fullfile(mat_dir,'output_data','nrn_efields',...
-            sprintf('layer_set_%g',layer_set_num),Efield_name);
-        nrn_pop_name_full = [nrn_pop_name '_' nrn_model_ver];
-        if strncmp(Efield.poly_interp_method,'simnibs_mesh_interp',length('simnibs_mesh_interp'))
-            fit_file_name = 'fits_s';
-        else % scattered interp
-            fit_file_name = 'fits';
-        end
-        if use_scalar_potentials % load scalar potentials (tES only)
-            fit_file_name = [fit_file_name 'v'];
-        end
-        fit_file_name = [fit_file_name '_p' num2str(Efield.poly_ord)];
-        fit_data = load(fullfile(Edata_dir,nrn_pop_name_full,[fit_file_name '.mat']));
-        fprintf('Loaded coefficients for polynomial of order %g, %s coordinates\n',Efield.poly_ord,fit_data.coords);
-        fit_cell_ids = fit_data.cell_ids;
-        coeffs_cell = fit_data.coeffs_all{fit_cell_ids == cell_id};
-        poly_model.ModelTerms = fit_data.model_terms;
-        % Use polynomial coefficients to get E/v at cell compartments in
-        % global coords
-        if use_scalar_potentials == 0 % E
-            Eint = zeros(size(C)); % local E
-            for j = 1:3
-               poly_model.Coefficients = coeffs_cell(pos_ind,:,j); % get coefficients
-               Eint(:,j) = polyvaln(poly_model,C); % E in local coordinates
-            end
-            if strcmp(fit_data.coords,'spherical') % convert to cartesian coordinates
-                [Ex,Ey,Ez] = sph2cart(Eint(:,2)*pi/180,pi*(90-Eint(:,1))/180,Eint(:,3),'phi_mode',fit_data.phi_mode);
-                Eint = [Ex,Ey,Ez];
-                fprintf('Converted E vectors to cartesian coordinates\n')
-            end
-            % coefficients fit for local coordinates, need to convert to
-            % global
-            Eint = placeCell([],cell_normal,Eint,phi); % rotate E vectors to global coordintes (treat as cell coordinates)
-            v_or_E_out = {Eint,cell_normal,phi};
-        else % v
-            poly_model.Coefficients = coeffs_cell(pos_ind,:); % get coefficients
-            v_or_E_out = polyvaln(poly_model,C);
-        end
+        end    
     otherwise
         error('%s not a valid interp_method',interp_method);
 end
