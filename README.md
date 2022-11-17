@@ -19,7 +19,7 @@ Python:
     scipy
     numpy
 
-MATLAB toolboxes (user install):
+MATLAB toolboxes:
     Parallel Computing Toolbox  
     version >r2022a, specifically for:
         `exportgraphics.m `

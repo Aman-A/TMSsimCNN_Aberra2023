@@ -3,7 +3,7 @@ main_dir = addPaths_dnn_neuron_stim;
 % neurons positioned within test E-field distribution (using ernie SimNIBS
 % example head mesh, re-meshed with mri2mesh pipeline)
 % Test dataset can be downloaded from:
-% 
+%  doi.org/10.5281/zenodo.7326394
 
 downloaded_test_dataset = 1; % set to 1 to skip moving test dataset to 
                            % appropriate folders
