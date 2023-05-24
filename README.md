@@ -1,5 +1,5 @@
 # TMSsimCNN_Aberra2022
-Code associated with Aberra AS, Lopez A, Grill WM, Peterchev AV. (2022). "Rapid estimation of cortical neuron activation thresholds by transcranial magnetic stimulation using convolutional neural networks".  bioRxiv
+Code associated with Aberra AS, Lopez A, Grill WM, Peterchev AV. (2023). "Rapid estimation of cortical neuron activation thresholds by transcranial magnetic stimulation using convolutional neural networks".  Neuroimage
 
 1) Install python dependencies (recommended to install into a virtual environment)
 2)  Add path to python executable to `python_exec.m`
